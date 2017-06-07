@@ -12,5 +12,6 @@ public class Card {
     private Player owner;
     private Player controller;
     private String name;
-    
+
+    private Zone location;
 }

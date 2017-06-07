@@ -6,6 +6,11 @@ import java.util.List;
  * Created by Family on 6/6/17.
  */
 public class Player {
-    private List<Card> hand;
+    //zones:
+    private Hand hand;
+    private Deck deck;
+    private Graveyard graveyard;
+    private Command command;
+
     private List<Mana> pool;
 }
