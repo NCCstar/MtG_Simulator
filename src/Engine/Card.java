@@ -11,4 +11,6 @@ public class Card {
     private List<String> subtypes;
     private Player owner;
     private Player controller;
+    private String name;
+    
 }
