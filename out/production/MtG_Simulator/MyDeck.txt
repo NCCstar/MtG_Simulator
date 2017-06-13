@@ -1,0 +1,4 @@
+Island*10
+Swamp*10
+Zulaport Cutthroat*20
+Fathom Feeder*20

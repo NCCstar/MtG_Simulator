@@ -8,4 +8,22 @@ import java.util.List;
 public abstract class Zone {
     private List<Card> cards;
     boolean isPublic;
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+
 }

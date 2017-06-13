@@ -5,4 +5,5 @@ package Engine;
  */
 public class Mana {
     private char type;//W,U,B,R,G,C
+
 }

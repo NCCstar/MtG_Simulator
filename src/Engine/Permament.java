@@ -5,4 +5,8 @@ package Engine;
  */
 public class Permament extends Card {
     boolean isToken;
+    public Permament(String entryText)
+    {
+        super(entryText);
+    }
 }

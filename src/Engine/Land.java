@@ -7,4 +7,8 @@ import java.util.List;
  */
 public class Land extends Permament{
     private List<LandType> landTypes;
+    public Land(String entryText)
+    {
+        super(entryText);
+    }
 }
