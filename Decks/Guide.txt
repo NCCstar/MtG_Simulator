@@ -1,4 +1,4 @@
 Index: full index of all cards usable - most anything can be seperated by commas - spells
-full name*mana cost(3UGR)*supertypes*types*subtype1,subtype2*Spell Ability*Activator:Ability*Trigger:Ability*Static Ability(if creature - *power*toughness)
+full name*mana cost(3UGR)*supertypes*types*subtype1,subtype2*Spell Ability*Activator:Ability*Trigger:Ability*Static Ability(if creature - *power*toughness)*
 Decks:
 full name*copies

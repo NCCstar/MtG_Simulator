@@ -9,7 +9,7 @@ public class Spell extends Card {
         super(entryText);
     }
 
-    public Permament toPermament()
+    public Permanent toPermament()
     {
         return null;
     }

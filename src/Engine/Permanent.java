@@ -1,0 +1,18 @@
+package Engine;
+
+/**
+ * Created by Family on 6/6/17.
+ */
+public class Permanent extends Card {
+    private boolean isToken;
+    private Card origin;
+    public Permanent(String entryText)
+    {
+        super(entryText);
+    }
+    public Permanent(Card card)
+    {
+        super();
+        origin = card;
+    }
+}

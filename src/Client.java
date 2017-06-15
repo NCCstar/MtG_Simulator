@@ -1,7 +1,9 @@
 import Engine.Card;
+import Engine.CardMapper;
 import Engine.Controller;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Family on 6/6/17.
@@ -10,9 +12,15 @@ public class Client {
     private static Controller controller;
     public static void main(String[] args)
     {
-        controller = new Controller(2);
+        Scanner input = new Scanner(System.in);
 
+        controller = new Controller(2);
         tick();
+        input.nextLine();
+        controller.getPlayers().get(0).playCard(CardMapper.map("Island"));
+        controller.getPlayers().get(1).playCard(CardMapper.map("Swamp"));
+        tick();
+        input.nextLine();
     }
     public static void tick()
     {

@@ -1,7 +1,5 @@
 package Engine;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,6 +23,24 @@ public class Player {
         library = new Library(deckName);
         graveyard = new Graveyard();
         command = new Command();
+    }
+
+    public boolean playCard(Card card)
+    {
+        if(!hand.hasCard(card))
+            return false;
+        Card ref = hand.getCardRef(card);
+        if(ref.getTypes().contains(Type.Land))
+        {
+            Permanent land = new Permanent(ref);
+            controller.getBattlefield().enter(land);
+        }
+        else
+        {
+            //spell
+        }
+        hand.getCards().remove(ref);
+        return true;
     }
 
     public void draw(int num)
