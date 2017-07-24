@@ -1,5 +1,7 @@
 package Engine;
 
+import Graphics.CardImage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,11 +26,45 @@ public class Card {
     private int power;
     private int toughness;
 
+    private CardImage image;
+
     private Zone location;
 
-    public Card()
-    {
+    public String getActivatedAbility() {
+        return activatedAbility;
+    }
 
+    public String getTriggeredAbility() {
+        return triggeredAbility;
+    }
+
+    public String getStaticAbility() {
+        return staticAbility;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getToughness() {
+        return toughness;
+    }
+
+    public Card(Card base)
+    {
+        name = base.getName();
+        cost = base.getCost();
+        colors = base.getColors();
+        supertypes = base.getSupertypes();
+        types = base.getTypes();
+        subtypes = base.getSubtypes();
+        spellAbility = base.getSpellAbility();
+        activatedAbility = base.getActivatedAbility();
+        triggeredAbility = base.getTriggeredAbility();
+        staticAbility = base.getStaticAbility();
+        power = base.getPower();
+        toughness = base.getToughness();
+        image = new CardImage(this);
     }
 
     public Card(String entryText)
@@ -85,6 +121,7 @@ public class Card {
             power = Integer.parseInt(lines[i++]);
             toughness = Integer.parseInt(lines[i++]);
         }
+        image = new CardImage(this);
     }
 
     public String getName()

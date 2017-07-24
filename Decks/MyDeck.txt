@@ -1,4 +1,4 @@
-Island*10
-Swamp*10
-Zulaport Cutthroat*20
-Fathom Feeder*20
+Plains*10
+Mountain*10
+Hyena Pack*20
+Expedition Envoy*20
