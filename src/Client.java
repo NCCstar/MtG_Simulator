@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class Client {
     private static Controller controller;
+    private static Display display;
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
@@ -19,7 +20,7 @@ public class Client {
         controller = new Controller(2);
 
         JFrame frame = new JFrame("MtG Simulator");
-        Display display = new Display(controller);
+        display = new Display(controller);
         frame.setSize(1000,1000);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setContentPane(display);
@@ -69,5 +70,8 @@ public class Client {
                 System.out.println(card.toString());
             }
         }
+        display.updateHand(0,controller.getPlayers().get(0).getHand().getCards());
+        display.updateHand(1,controller.getPlayers().get(1).getHand().getCards());
+        display.repaint();
     }
 }

@@ -5,9 +5,7 @@ package Engine;
  */
 public enum Supertype {
     Basic,
-    Elite,//ha
     Legendary,
-    Ongoing,//probs not
-    Snow,//also ha
+    Snow,//ha
     World;//just no way.
 }

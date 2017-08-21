@@ -12,7 +12,7 @@ public class Library extends Zone{
     {
         List<Card> cards = new ArrayList<>();
         try {
-            Scanner input = new Scanner(new FileReader("/Users/Family/IdeaProjects/MtG_Simulator/Decks/"+deckName));
+            Scanner input = new Scanner(new FileReader("./Decks/"+deckName));
             while (input.hasNextLine()) {
                 String[] line = input.nextLine().split("\\*");
                 for(int i=0;i<Integer.parseInt(line[1]);i++)
