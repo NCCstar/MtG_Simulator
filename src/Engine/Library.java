@@ -8,7 +8,7 @@ import java.util.*;
  * Created by Family on 6/6/17.
  */
 public class Library extends Zone{
-    public Library(String deckName)
+    public Library(String deckName,Player owner)
     {
         List<Card> cards = new ArrayList<>();
         try {
@@ -17,7 +17,9 @@ public class Library extends Zone{
                 String[] line = input.nextLine().split("\\*");
                 for(int i=0;i<Integer.parseInt(line[1]);i++)
                 {
-                    cards.add(CardMapper.map(line[0]));
+                    Card in = CardMapper.map(line[0]);
+                    in.setOwner(owner);
+                    cards.add(in);
                 }
             }
         }

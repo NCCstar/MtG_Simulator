@@ -19,4 +19,8 @@ public class Battlefield extends Zone{
         perms.add(in);
         getCards().add(in);
     }
+    public List<Permanent> getPerms()
+    {
+        return perms;
+    }
 }

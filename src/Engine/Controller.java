@@ -21,7 +21,7 @@ public class Controller {
         players = new ArrayList<>();
         for(int i=0;i<playerNum;i++)
         {
-            players.add(new Player(this,"MyDeck.txt"));
+            players.add(new Player(this,"MyDeck.txt",i));
             players.get(i).shuffle();
             players.get(i).draw(7);
         }

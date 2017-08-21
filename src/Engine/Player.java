@@ -14,25 +14,29 @@ public class Player {
     private Command command;
     private Controller controller;
 
+    private int pNum;
     private List<Mana> pool;
 
-    public Player(Controller controller,String deckName)
+    public Player(Controller controller,String deckName,int pNum)
     {
         this.controller = controller;
         hand = new Hand();
-        library = new Library(deckName);
+        library = new Library(deckName,this);
         graveyard = new Graveyard();
         command = new Command();
+        this.pNum = pNum;
     }
 
     public boolean playCard(Card card)
     {
-        if(!hand.hasCard(card))
+        if(!hand.hasCard(card)) {
+            System.out.println("That card is not in hand");
             return false;
+        }
         Card ref = hand.getCardRef(card);
         if(ref.getTypes().contains(Type.Land))
         {
-            Permanent land = new Permanent(ref);
+            Permanent land = new Permanent(ref,this);
             controller.getBattlefield().enter(land);
         }
         else
@@ -70,4 +74,6 @@ public class Player {
     public Command getCommand() {
         return command;
     }
+
+    public int getPNum(){return pNum;}
 }

@@ -64,11 +64,18 @@ public class Card {
         staticAbility = base.getStaticAbility();
         power = base.getPower();
         toughness = base.getToughness();
+        owner = base.getOwner();
         image = new CardImage(this);
     }
 
     public Card(String entryText)
+    {
+        this(entryText,null);
+    }
+
+    public Card(String entryText,Player owner)
     {//full name*mana cost(3UGR)*supertypes*types*subtype1,subtype2*Spell Ability*Activator:Ability*Trigger:Ability*Static Ability(if creature - *power*toughness)
+        this.owner = owner;
         String[] lines = entryText.split("\\*");
         int i=0;
         name = lines[i++];
@@ -151,6 +158,14 @@ public class Card {
 
     public String getSpellAbility() {
         return spellAbility;
+    }
+
+    public void setOwner(Player player){
+        owner = player;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 
     public String toString()

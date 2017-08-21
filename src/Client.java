@@ -21,16 +21,15 @@ public class Client {
 
         JFrame frame = new JFrame("MtG Simulator");
         display = new Display(controller);
-        frame.setSize(1000,1000);
+        frame.setSize(1000,800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setContentPane(display);
         frame.setVisible(true);
         frame.setResizable(true);//may be false
 
         tick();
-        input.nextLine();
-        controller.getPlayers().get(0).playCard(CardMapper.map("Island"));
-        controller.getPlayers().get(1).playCard(CardMapper.map("Swamp"));
+        controller.getPlayers().get(0).playCard(CardMapper.map("Mountain"));
+        controller.getPlayers().get(0).playCard(CardMapper.map("Plains"));
         tick();
         input.nextLine();
     }
@@ -70,8 +69,10 @@ public class Client {
                 System.out.println(card.toString());
             }
         }
-        display.updateHand(0,controller.getPlayers().get(0).getHand().getCards());
-        display.updateHand(1,controller.getPlayers().get(1).getHand().getCards());
+        display.updateHand(0);
+        display.updateHand(1);
+        display.updateBattlefield();
         display.repaint();
+
     }
 }
