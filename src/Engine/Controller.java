@@ -22,7 +22,7 @@ public class Controller {
         for(int i=0;i<playerNum;i++)
         {
             if(i==0)
-            players.add(new Player(this,"MyDeck.txt",i));
+                players.add(new Player(this,"MyDeck.txt",i));
             else
                 players.add(new Player(this,"MyOtherDeck.txt",i));
             players.get(i).shuffle();

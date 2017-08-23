@@ -15,7 +15,6 @@ public class Card {
     private List<LandType> landTypes;
     private List<String> subtypes;
     private Player owner;
-    private Player controller;
     private String name;
     private List<Color> colors;
     private String cost;//temporary?
