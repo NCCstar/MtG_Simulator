@@ -35,6 +35,7 @@ public class Client {
     }
     public static void tick()
     {
+        /*
         System.out.println("Stack Cards:");
         for(Card card:controller.getStack().getCards())
         {
@@ -69,6 +70,7 @@ public class Client {
                 System.out.println(card.toString());
             }
         }
+        */
         display.updateHand(0);
         display.updateHand(1);
         display.updateBattlefield();

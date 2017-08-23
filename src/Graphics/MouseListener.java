@@ -30,10 +30,7 @@ public class MouseListener implements java.awt.event.MouseListener {
         {
             if(xHit>c.getX() && xHit<c.getX()+CardImage.getWidth()
                     && yHit>c.getY() && yHit<c.getY()+CardImage.getHeight())
-            {
-                System.out.println("FOUND ITSES");
                 return c;
-            }
         }
         return null;
     }
@@ -43,8 +40,10 @@ public class MouseListener implements java.awt.event.MouseListener {
         CardImage clicked = findClicked(e);
         if(clicked!=null)
         {
-            Card found = clicked.getOrigin();
-            System.out.println(found.toString());
+            if(e.getButton()==MouseEvent.BUTTON3) {
+                Card found = clicked.getOrigin();
+                System.out.println(found.toString());
+            }
         }
     }
 
