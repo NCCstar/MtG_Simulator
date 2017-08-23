@@ -19,21 +19,34 @@ public class Display extends JPanel{
     private static final double CARD_HEIGHT = 35;
 
     private Controller controller;
+    private MouseListener listener;
     private List<CardImage>[] hands = new ArrayList[2];
     private List<CardImage>[] battlefields = new ArrayList[2];
     private double halfHeight;
     public Display(Controller controller)
     {
-        for(List<CardImage> list:hands)
-            list = new ArrayList<CardImage>();
-        for(List<CardImage> list:battlefields)
-            list = new ArrayList<CardImage>();
+        for(int i=0;i<hands.length;i++)
+            hands[i] = new ArrayList<CardImage>();
+        for(int i=0;i<battlefields.length;i++)
+            battlefields[i] = new ArrayList<CardImage>();
 
         this.controller = controller;
 
         CardImage.setHeight(CARD_HEIGHT);
         CardImage.setWidth(CARD_WIDTH);
+        listener = new MouseListener(this);
     }
+
+    public List<CardImage> getAllCards()
+    {
+        List<CardImage> ans = new ArrayList<>();
+        ans.addAll(hands[0]);
+        ans.addAll(hands[1]);
+        ans.addAll(battlefields[0]);
+        ans.addAll(battlefields[1]);
+        return ans;
+    }
+
     public void updateHand(int pNum)
     {
         List<Card> cardList = controller.getPlayers().get(pNum).getHand().getCards();
@@ -43,6 +56,7 @@ public class Display extends JPanel{
             temp.add(new CardImage(card));
         }
         hands[pNum]=temp;
+        listener.updateCardImages(getAllCards());
     }
     public void updateBattlefield()
     {
@@ -64,6 +78,7 @@ public class Display extends JPanel{
             }
             battlefields[pNum]=temp;
         }
+        listener.updateCardImages(getAllCards());
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -73,19 +88,31 @@ public class Display extends JPanel{
         //assuming 2 players
         for(int i=0;i<hands[0].size();i++)
         {
-            hands[0].get(i).draw(g,i*(CARD_WIDTH+10)+10,10);
+            CardImage drawn = hands[0].get(i);
+            drawn.setX(i*(CARD_WIDTH+10)+10);
+            drawn.setY(10);
+            drawn.draw(g);
         }
         for(int i=0;i<battlefields[0].size();i++)
         {
-            battlefields[0].get(i).draw(g,i*(CARD_WIDTH+10)+10,halfHeight-20-CARD_HEIGHT);
+            CardImage drawn = hands[0].get(i);
+            drawn.setX(i*(CARD_WIDTH+10)+10);
+            drawn.setY(halfHeight-20-CARD_HEIGHT);
+            drawn.draw(g);
         }
         for(int i=0;i<battlefields[1].size();i++)
         {
-            battlefields[1].get(i).draw(g,i*(CARD_WIDTH+10)+10,halfHeight+20+CARD_HEIGHT);
+            CardImage drawn = battlefields[1].get(i);
+            drawn.setX(i*(CARD_WIDTH+10)+10);
+            drawn.setY(halfHeight+20+CARD_HEIGHT);
+            drawn.draw(g);
         }
         for(int i=0;i<hands[1].size();i++)
         {
-            hands[1].get(i).draw(g,i*(CARD_WIDTH+10)+10,getHeight()-10-CARD_HEIGHT);
+            CardImage drawn = hands[1].get(i);
+            drawn.setX(i*(CARD_WIDTH+10)+10);
+            drawn.setY(getHeight()-10-CARD_HEIGHT);
+            drawn.draw(g);
         }
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Rhys on 7/23/17.
  */
 public class CardImage {
+    //width and height same for all card images - thus static
     private static double width;
     private static double height;
     public static void setWidth(double w)
@@ -19,17 +20,31 @@ public class CardImage {
     {
         height = h;
     }
-    private Card card;
+    public static double getWidth() {
+        return width;
+    }
+
+    public static double getHeight() {
+        return height;
+    }
+
+    private double x,y;
+
+    private Card origin;
+
     public CardImage(Card card)
     {
-        this.card = card;
+        origin = card;
     }
-    public void draw(Graphics g,double x,double y)
+
+
+    public void draw(Graphics g)
     {
-        List<Engine.Color> colors = card.getColors();
+        List<Engine.Color> colors = origin.getColors();
         if(colors.size()>1) {
             g.setColor(Color.yellow.darker());
         }
+
         else {
             if (colors.size() < 1) {
                 g.setColor(Color.pink);
@@ -57,5 +72,24 @@ public class CardImage {
             }
         }
         g.fillRect((int)x,(int)y,(int)width,(int)height);
+    }
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public Card getOrigin() {
+        return origin;
     }
 }
