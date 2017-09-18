@@ -1,7 +1,6 @@
 package Graphics;
 
 import Engine.Card;
-import com.sun.tools.javac.util.Log;
 
 import java.awt.event.MouseEvent;
 import java.util.List;

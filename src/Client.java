@@ -32,6 +32,8 @@ public class Client {
         controller.getPlayers().get(0).playCard(CardMapper.map("Plains"));
         tick();
         input.nextLine();
+        input.nextLine();
+        input.nextLine();
     }
     public static void tick()
     {

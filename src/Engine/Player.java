@@ -33,6 +33,7 @@ public class Player {
             System.out.println("That card is not in hand");
             return false;
         }
+        //Card is in hand
         Card ref = hand.getCardRef(card);
         if(ref.getTypes().contains(Type.Land))
         {
