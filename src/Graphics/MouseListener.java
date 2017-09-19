@@ -18,7 +18,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 
     public void updateCardImages(List<CardImage> images)
     {
-        cardsList = images;//parody?
+        cardsList = images;
     }
 
     private CardImage findClicked(MouseEvent e)

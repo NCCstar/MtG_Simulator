@@ -17,7 +17,8 @@ public class Card {
     private Player owner;
     private String name;
     private List<Color> colors;
-    private String cost;//temporary?
+    private String manaString;
+    private List<Mana> manaCost;
     private String spellAbility;
     private String activatedAbility;
     private String triggeredAbility;
@@ -52,7 +53,8 @@ public class Card {
     public Card(Card base)
     {
         name = base.getName();
-        cost = base.getCost();
+        manaCost = base.getManaCost();
+
         colors = base.getColors();
         supertypes = base.getSupertypes();
         types = base.getTypes();
@@ -78,21 +80,60 @@ public class Card {
         String[] lines = entryText.split("\\*");
         int i=0;
         name = lines[i++];
-        cost = lines[i++];//mana cost
+        manaString = lines[i++];//mana cost
+        manaCost = new ArrayList();
+        ArrayList<Character> costList = new ArrayList<>();
+        for(Character c:manaString.toCharArray())
+        {
+            costList.add(c);
+        }
+        if(Character.isDigit(costList.get(0)))
+        {
+            int generic = Character.getNumericValue(costList.remove(0));
+            for(int j=0;j<generic;j++)
+            {
+                manaCost.add(new Mana(Mana.Type.X));
+            }
+        }
+        while(costList.size()>0)
+        {
+            char next = costList.remove(0);
+            switch(next)
+            {
+                case 'W':
+                    manaCost.add(0,new Mana(Mana.Type.W));
+                    break;
+                case 'U':
+                    manaCost.add(0,new Mana(Mana.Type.U));
+                    break;
+                case 'B':
+                    manaCost.add(0,new Mana(Mana.Type.B));
+                    break;
+                case 'R':
+                    manaCost.add(0,new Mana(Mana.Type.R));
+                    break;
+                case 'G':
+                    manaCost.add(0,new Mana(Mana.Type.G));
+                    break;
+                case 'C':
+                    manaCost.add(0,new Mana(Mana.Type.C));
+                    break;
+            }
+        }
         colors = new ArrayList<>();
-        if(cost.contains("W")) {
+        if(costList.contains("W")) {
             colors.add(Color.White);
         }
-        if(cost.contains("U")) {
+        if(costList.contains("U")) {
             colors.add(Color.Blue);
         }
-        if(cost.contains("B")) {
+        if(costList.contains("B")) {
             colors.add(Color.Black);
         }
-        if(cost.contains("R")) {
+        if(costList.contains("R")) {
             colors.add(Color.Red);
         }
-        if(cost.contains("G")) {
+        if(costList.contains("G")) {
             colors.add(Color.Green);
         }
 
@@ -151,8 +192,13 @@ public class Card {
         return colors;
     }
 
-    public String getCost() {
-        return cost;
+    public List<Mana> getManaCost() {
+        return manaCost;
+    }
+
+    public String getManaString()
+    {
+        return manaString;
     }
 
     public String getSpellAbility() {

@@ -1,5 +1,6 @@
 package Engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +43,20 @@ public class Player {
         }
         else
         {
+            List<Mana> cost = card.getManaCost();
+            //pool
+            try
+            {
+                List<Mana> tempPool = new ArrayList<>(pool);
+                Mana.subtract(tempPool,cost);
+                pool = tempPool;
+
+                //cast spell
+            }
+            catch(ManaException e)
+            {
+                System.out.println("Can't cast.");
+            }
             //spell
         }
         hand.getCards().remove(ref);

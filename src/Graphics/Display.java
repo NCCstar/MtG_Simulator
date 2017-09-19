@@ -95,7 +95,7 @@ public class Display extends JPanel{
         }
         for(int i=0;i<battlefields[0].size();i++)
         {
-            CardImage drawn = hands[0].get(i);
+            CardImage drawn = battlefields[0].get(i);
             drawn.setX(i*(CARD_WIDTH+10)+10);
             drawn.setY(halfHeight-20-CARD_HEIGHT);
             drawn.draw(g);
@@ -114,5 +114,6 @@ public class Display extends JPanel{
             drawn.setY(getHeight()-10-CARD_HEIGHT);
             drawn.draw(g);
         }
+        listener.updateCardImages(getAllCards());
     }
 }
