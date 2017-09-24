@@ -33,7 +33,7 @@ public class Player {
 
     }
 
-
+    //To be done while this player has priority. Will either put a land onto the battlefield or put a spell onto the stack, with no further actions
     public boolean playCard(Card card)
     {
         if(!hand.hasCard(card)) {
@@ -56,8 +56,6 @@ public class Player {
             {
                 pool = Mana.subtract(pool,cost);
                 controller.getStack().add(new Spell(ref,this));
-                //pass priority
-                controller.getOpponent(this);
             }
             catch(ManaException e)
             {

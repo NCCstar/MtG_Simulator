@@ -28,55 +28,12 @@ public class Client {
         frame.setResizable(true);//may be false
 
         tick();
-        controller.getPlayers().get(0).playCard(CardMapper.map("Mountain"));
-        controller.getPlayers().get(0).playCard(CardMapper.map("Plains"));
-        tick();
-        input.nextLine();
-        input.nextLine();
-        input.nextLine();
     }
     public static void tick()
     {
-        /*
-        System.out.println("Stack Cards:");
-        for(Card card:controller.getStack().getCards())
-        {
-            System.out.println(card.toString());
-        }
-        System.out.println("Battefield Cards:");
-        for(Card card:controller.getBattlefield().getCards())
-        {
-            System.out.println(card.toString());
-        }
-        System.out.println("Exile Cards:");
-        for(Card card:controller.getExile().getCards())
-        {
-            System.out.println(card.toString());
-        }
-        for(int i=0;i<controller.getPlayers().size();i++)
-        {
-            System.out.println("Player "+(i+1));
-            System.out.println("Hand Cards:");
-            for(Card card:controller.getPlayers().get(i).getHand().getCards())
-            {
-                System.out.println(card.toString());
-            }
-            System.out.println("Graveyard Cards:");
-            for(Card card:controller.getPlayers().get(i).getGraveyard().getCards())
-            {
-                System.out.println(card.toString());
-            }
-            System.out.println("Command Cards:");
-            for(Card card:controller.getPlayers().get(i).getCommand().getCards())
-            {
-                System.out.println(card.toString());
-            }
-        }
-        */
         display.updateHand(0);
         display.updateHand(1);
         display.updateBattlefield();
         display.repaint();
-
     }
 }

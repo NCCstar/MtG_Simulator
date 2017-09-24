@@ -46,4 +46,11 @@ public class Controller {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public Player getOpponent(Player p)
+    {
+        if(p==players.get(0))
+            return players.get(1);
+        return players.get(0);
+    }
 }
