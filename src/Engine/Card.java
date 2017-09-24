@@ -121,19 +121,19 @@ public class Card {
             }
         }
         colors = new ArrayList<>();
-        if(costList.contains("W")) {
+        if(costList.contains('W')) {
             colors.add(Color.White);
         }
-        if(costList.contains("U")) {
+        if(costList.contains('U')) {
             colors.add(Color.Blue);
         }
-        if(costList.contains("B")) {
+        if(costList.contains('B')) {
             colors.add(Color.Black);
         }
-        if(costList.contains("R")) {
+        if(costList.contains('R')) {
             colors.add(Color.Red);
         }
-        if(costList.contains("G")) {
+        if(costList.contains('G')) {
             colors.add(Color.Green);
         }
 

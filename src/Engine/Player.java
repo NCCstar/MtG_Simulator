@@ -28,6 +28,12 @@ public class Player {
         this.pNum = pNum;
     }
 
+    public void hasPriority()
+    {
+
+    }
+
+
     public boolean playCard(Card card)
     {
         if(!hand.hasCard(card)) {
@@ -36,7 +42,8 @@ public class Player {
         }
         //Card is in hand
         Card ref = hand.getCardRef(card);
-        if(ref.getTypes().contains(Type.Land))
+        List<Type> types = ref.getTypes();
+        if(types.contains(Type.Land))
         {
             Permanent land = new Permanent(ref,this);
             controller.getBattlefield().enter(land);
@@ -47,15 +54,14 @@ public class Player {
             //pool
             try
             {
-                List<Mana> tempPool = new ArrayList<>(pool);
-                Mana.subtract(tempPool,cost);
-                pool = tempPool;
-
-                //cast spell
+                pool = Mana.subtract(pool,cost);
+                controller.getStack().add(new Spell(ref,this));
+                //pass priority
+                controller.getOpponent(this);
             }
             catch(ManaException e)
             {
-                System.out.println("Can't cast.");
+                System.out.println("Can't cast - bad mana.");
             }
             //spell
         }
@@ -83,6 +89,10 @@ public class Player {
         return hand;
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
     public Graveyard getGraveyard() {
         return graveyard;
     }
@@ -92,4 +102,10 @@ public class Player {
     }
 
     public int getPNum(){return pNum;}
+    @Override
+    public boolean equals(Object object)
+    {
+        Player other = (Player)(object);
+        return library.equals(other.getLibrary()) && graveyard.equals(other.getGraveyard()) && command.equals(other.getCommand()) && hand.equals(other.getHand());
+    }
 }

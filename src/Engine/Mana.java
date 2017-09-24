@@ -21,13 +21,13 @@ public class Mana {
     }
     public static List<Mana> subtract(List<Mana> big,List<Mana> lil) throws ManaException
     {
-        List<Mana> ans = new ArrayList<>();
+        List<Mana> temp = new ArrayList<>(big);
 
         for(Mana i:lil)
         {
             if(i.getType() == Mana.Type.X)
             {
-                if(big.remove(0)!=null)
+                if(temp.remove(0)!=null)
                 {
                     lil.remove(i);
                 }
@@ -39,7 +39,7 @@ public class Mana {
             }
             else
             {
-                if(big.remove(i))
+                if(temp.remove(i))
                 {
                     lil.remove(i);
                 }
@@ -49,6 +49,6 @@ public class Mana {
                 }
             }
         }
-        return ans;
+        return temp;
     }
 }

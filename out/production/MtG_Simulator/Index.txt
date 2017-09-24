@@ -6,4 +6,6 @@ Forest* *Basic*Land*Forest* *T:Add G to mana pool* * *
 Expedition Envoy*W* *Creature*Human,Scout,Ally* * * * *2*1*
 Hyena Pack*2RR* *Creature*Hyena* * * * *3*4*
 Zulaport Cutthroat*1B* *Creature*Human,Rogue,Ally* * *This or Creature you control dies:Each opponent loses 1 life and you gain 1 life* *1*1*
-Fathom Feeder*UB* *Creature*Eldrazi,Drone,* *3UB:Draw a card. Each opponent exiles top card of library* *Devoid,Deathtouch,Ingest*1*1*
+Fathom Feeder*UB* *Creature*Eldrazi,Drone* *3UB:Draw a card. Each opponent exiles top card of library* *Devoid,Deathtouch,Ingest*1*1*
+Player 0* * *Enchantment* * * * * * *
+Player 1* * *Enchantment* * * * * * *
