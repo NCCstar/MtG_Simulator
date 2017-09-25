@@ -28,7 +28,6 @@ public class Controller {
             players.get(i).shuffle();
             players.get(i).draw(7);
         }
-
     }
 
     public Exile getExile() {
