@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="MtG_Sim:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f4c358ec-f0e9-4f96-be55-64b16d8192c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Main/Server.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MtG_Simulator/Client.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TestClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TestServer.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Client.java" afterPath="$PROJECT_DIR$/src/Main/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MtG_Simulator/Engine/Controller.class" afterPath="$PROJECT_DIR$/out/production/MtG_Simulator/Engine/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MtG_Simulator/TestClient.class" afterPath="$PROJECT_DIR$/out/production/MtG_Simulator/TestClient.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MtG_Simulator/TestServer.class" afterPath="$PROJECT_DIR$/out/production/MtG_Simulator/TestServer.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/MtG_Sim_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/otherClient/TestClient.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/otherClient/TestClient.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/Controller.java" afterPath="$PROJECT_DIR$/src/Engine/Controller.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,8 +29,8 @@
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="63" column="13" lean-forward="true" selection-start-line="63" selection-start-column="13" selection-end-line="63" selection-end-column="13" />
+            <state relative-caret-position="792">
+              <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -187,18 +187,7 @@
             <path>
               <item name="MtG_Simulator" type="b2602c69:ProjectViewProjectNode" />
               <item name="MtG_Simulator" type="462c0819:PsiDirectoryNode" />
-              <item name="Decks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MtG_Simulator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MtG_Simulator" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MtG_Simulator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MtG_Simulator" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -211,7 +200,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -712,12 +701,12 @@
       <workItem from="1506383643446" duration="1759000" />
       <workItem from="1506534215645" duration="897000" />
       <workItem from="1506538576441" duration="1594000" />
-      <workItem from="1506615894426" duration="3362000" />
+      <workItem from="1506615894426" duration="4393000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91274000" />
+    <option name="totallyTimeSpent" value="92305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1397" height="877" extended-state="0" />
@@ -1106,8 +1095,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="63" column="13" lean-forward="true" selection-start-line="63" selection-start-column="13" selection-end-line="63" selection-end-column="13" />
+        <state relative-caret-position="792">
+          <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1120,10 +1109,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>MtG_Sim:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1171,6 +1162,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

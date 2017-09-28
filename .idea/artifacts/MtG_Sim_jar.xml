@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MtG_Sim:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MtG_Sim_jar</output-path>
+    <root id="archive" name="MtG_Sim.jar">
+      <element id="module-output" name="MtG_Sim" />
+    </root>
+  </artifact>
+</component>
