@@ -1,5 +1,6 @@
 package Engine;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Controller {
     private Battlefield battlefield;
     private List<Player> players;
 
-    public Controller(int playerNum)
+    public Controller(int playerNum,Socket connection)
     {
         exile = new Exile();
 
