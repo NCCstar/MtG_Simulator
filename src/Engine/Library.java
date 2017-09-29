@@ -8,8 +8,10 @@ import java.util.*;
  * Created by Family on 6/6/17.
  */
 public class Library extends Zone{
+    private Player owner;
     public Library(String deckName,Player owner)
     {
+        this.owner = owner;
         List<Card> cards = new ArrayList<>();
         try {
             Scanner input = new Scanner(new FileReader("./Decks/"+deckName));
@@ -31,6 +33,6 @@ public class Library extends Zone{
     }
     public void shuffle()
     {
-        Collections.shuffle(getCards());
+        Collections.shuffle(getCards(),owner.getController().getRandom());
     }
 }

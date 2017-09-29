@@ -31,7 +31,7 @@ public class Controller {
             writer = new PrintStream(System.out);
             random = new Random(1701);
         }
-
+        
         exile = new Exile();
         stack = new Stack();
         battlefield = new Battlefield();
@@ -47,7 +47,10 @@ public class Controller {
         }
 
     }
-
+    public Random getRandom()
+    {
+        return random;
+    }
     public Exile getExile() {
         return exile;
     }
@@ -69,5 +72,9 @@ public class Controller {
         if(p==players.get(0))
             return players.get(1);
         return players.get(0);
+    }
+    public void cardPlayed()
+    {
+
     }
 }

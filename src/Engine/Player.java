@@ -9,7 +9,6 @@ import java.util.List;
 public class Player {
     //zones:
     private Hand hand;
-
     private Library library;
     private Graveyard graveyard;
     private Command command;
