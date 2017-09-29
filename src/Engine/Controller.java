@@ -1,8 +1,10 @@
 package Engine;
 
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Family on 6/6/17.
@@ -12,11 +14,25 @@ public class Controller {
     private Stack stack;
     private Battlefield battlefield;
     private List<Player> players;
-
-    public Controller(int playerNum,Socket connection)
+    private BufferedReader reader;
+    private PrintStream writer;
+    private Random random;
+    public Controller(int playerNum,Socket socket)
     {
-        exile = new Exile();
+        try {
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintStream(socket.getOutputStream());
+            writer.println("Random?");
+            long seed = Long.parseLong(reader.readLine());
+            System.out.println(seed);
+            random = new Random(seed);
+        } catch(IOException e){
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            writer = new PrintStream(System.out);
+            random = new Random(1701);
+        }
 
+        exile = new Exile();
         stack = new Stack();
         battlefield = new Battlefield();
         players = new ArrayList<>();
@@ -29,6 +45,7 @@ public class Controller {
             players.get(i).shuffle();
             players.get(i).draw(7);
         }
+
     }
 
     public Exile getExile() {
