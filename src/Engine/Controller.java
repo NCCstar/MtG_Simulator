@@ -51,6 +51,7 @@ public class Controller {
     {
         return random;
     }
+
     public Exile getExile() {
         return exile;
     }

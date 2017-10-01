@@ -60,7 +60,6 @@ public class Player {
             {
                 System.out.println("Can't cast - bad mana.");
             }
-            //spell
         }
         hand.getCards().remove(ref);
         return true;
