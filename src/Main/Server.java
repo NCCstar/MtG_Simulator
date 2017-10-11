@@ -30,9 +30,8 @@ public class Server implements Runnable {
 
             input[1] = new BufferedReader(new InputStreamReader(socket[1].getInputStream()));
             output[1] = new PrintStream(socket[1].getOutputStream());
-            int i=0;
             long ranSeed = new Random().nextLong();
-            while(true)
+            for(int i = 0; ; i ^= 1)
             {
                 String line = input[i].readLine();
                 if(line!=null) {
@@ -41,11 +40,11 @@ public class Server implements Runnable {
                     {
                         output[i].println(ranSeed);
                     }
+                    if(line.indexOf("Direct")==0)
+                    {
+                        output[i^1].println(line);
+                    }
                 }
-                if(i==0)
-                    i=1;
-                else
-                    i=0;
             }
         }
         catch(IOException e)

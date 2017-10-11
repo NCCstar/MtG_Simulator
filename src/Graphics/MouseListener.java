@@ -39,9 +39,14 @@ public class MouseListener implements java.awt.event.MouseListener {
         CardImage clicked = findClicked(e);
         if(clicked!=null)
         {
-            if(e.getButton()==MouseEvent.BUTTON3) {
-                Card found = clicked.getOrigin();
+            Card found = clicked.getOrigin();
+            if(e.getButton()==MouseEvent.BUTTON3)
+            {
                 System.out.println(found.toString());
+            }
+            if(e.getButton()==MouseEvent.BUTTON1)
+            {
+                display.getController().playCard(found.getOwner(),found);
             }
         }
     }

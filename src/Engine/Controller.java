@@ -17,6 +17,8 @@ public class Controller {
     private BufferedReader reader;
     private PrintStream writer;
     private Random random;
+    private Thread IOHandler;
+
     public Controller(int playerNum,Socket socket)
     {
         try {
@@ -45,8 +47,22 @@ public class Controller {
             players.get(i).shuffle();
             players.get(i).draw(7);
         }
-
+        new Thread(){
+            public void run()
+            {
+                while(true)
+                {
+                    try {
+                        String read = reader.readLine();
+                        handleAction(read);
+                    }
+                    catch(IOException e)
+                    { }
+                }
+            }
+        }.run();
     }
+
     public Random getRandom()
     {
         return random;
@@ -74,8 +90,23 @@ public class Controller {
             return players.get(1);
         return players.get(0);
     }
-    public void cardPlayed()
-    {
 
+    public void handleAction(String action)
+    {
+        System.out.println("Action Recieved: "+action);
+        String[] split = action.split("\\*");
+        if(split[1].equals("Play"))
+        {
+            System.out.println("Player "+split[1]+" playing "+split[3]);
+            players.get(Integer.parseInt(split[2])).playCard(CardMapper.map(split[3]));
+        }
+    }
+
+    public void playCard(Player player, Card card)
+    {
+        if(player.playCard(card))
+        {
+            writer.println("Direct*Play*"+card.getOwner().getPNum()+"*"+card.getName());
+        }
     }
 }

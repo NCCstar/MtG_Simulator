@@ -23,6 +23,7 @@ public class Display extends JPanel{
     private List<CardImage>[] hands = new ArrayList[2];
     private List<CardImage>[] battlefields = new ArrayList[2];
     private double halfHeight;
+
     public Display(Controller controller)
     {
         for(int i=0;i<hands.length;i++)
@@ -58,6 +59,7 @@ public class Display extends JPanel{
         hands[pNum]=temp;
         listener.updateCardImages(getAllCards());
     }
+
     public void updateBattlefield()
     {
         for(int pNum=0;pNum<2;pNum++)
@@ -80,6 +82,11 @@ public class Display extends JPanel{
         }
         listener.updateCardImages(getAllCards());
     }
+
+    public Controller getController() {
+        return controller;
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         halfHeight = getHeight()/2.0;
