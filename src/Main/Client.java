@@ -77,9 +77,6 @@ public class Client {
     }
     public static void tick()
     {
-        display.updateHand(0);
-        display.updateHand(1);
-        display.updateBattlefield();
-        display.repaint();
+        display.update();
     }
 }

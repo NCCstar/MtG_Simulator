@@ -14,14 +14,14 @@ public class Server implements Runnable {
         try
         {
             server = new ServerSocket(0);
-            System.out.println("Listening on port: " + server.getLocalPort());
-            System.out.println("Attempting connection 1");
+            System.out.println("S: Listening on port: " + server.getLocalPort());
+            System.out.println("S: Attempting connection 1");
             socket[0] = server.accept();
-            System.out.println("Connected!");
+            System.out.println("S: Connected!");
             connections++;
-            System.out.println("Attempting connection 2");
+            System.out.println("S: Attempting connection 2");
             socket[1] = server.accept();
-            System.out.println("Connected!");
+            System.out.println("S: Connected!");
             connections++;
             BufferedReader[] input = new BufferedReader[2];
             PrintStream[] output = new PrintStream[2];
@@ -30,26 +30,48 @@ public class Server implements Runnable {
 
             input[1] = new BufferedReader(new InputStreamReader(socket[1].getInputStream()));
             output[1] = new PrintStream(socket[1].getOutputStream());
-            long ranSeed = new Random().nextLong();
-            for(int i = 0; ; i ^= 1)
+            final long ranSeed = new Random().nextLong();
+
+                new Thread(() ->
+                {
+                        try
+                        {
+                            String line = input[1].readLine();
+                            if (line != null) {
+                                System.out.println("S:"+1+": I hear: " + line);
+                                if (line.equals("Random?")) {
+                                    output[1].println(ranSeed);
+                                }
+                                if (line.indexOf("Direct") == 0) {
+                                    output[1 ^ 1].println(line);
+                                }
+                            }
+                        } catch (IOException e)
+                        { }
+                }).start();
+
+            new Thread(() ->
             {
-                String line = input[i].readLine();
-                if(line!=null) {
-                    System.out.println("I hear: " + line);
-                    if(line.equals("Random?"))
-                    {
-                        output[i].println(ranSeed);
+                try
+                {
+                    String line = input[0].readLine();
+                    if (line != null) {
+                        System.out.println("S:"+0+": I hear: " + line);
+                        if (line.equals("Random?")) {
+                            output[0].println(ranSeed);
+                        }
+                        if (line.indexOf("Direct") == 0) {
+                            output[0 ^ 1].println(line);
+                        }
                     }
-                    if(line.indexOf("Direct")==0)
-                    {
-                        output[i^1].println(line);
-                    }
-                }
-            }
+                } catch (IOException e)
+                { }
+            }).start();
+
         }
         catch(IOException e)
         {
-            System.out.println("It broke.");
+            System.out.println("S: It broke.");
         }
     }
     public int getPort()

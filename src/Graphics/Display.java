@@ -32,6 +32,7 @@ public class Display extends JPanel{
             battlefields[i] = new ArrayList<CardImage>();
 
         this.controller = controller;
+        controller.setDisplay(this);
 
         CardImage.setHeight(CARD_HEIGHT);
         CardImage.setWidth(CARD_WIDTH);
@@ -48,10 +49,17 @@ public class Display extends JPanel{
         return ans;
     }
 
-    public void updateHand(int pNum)
+    public void update()
+    {
+        updateBattlefield();
+        updateHand(0);
+        updateHand(1);
+        repaint();
+    }
+    private void updateHand(int pNum)
     {
         List<Card> cardList = controller.getPlayers().get(pNum).getHand().getCards();
-        List<CardImage> temp = new ArrayList<CardImage>();
+        List<CardImage> temp = new ArrayList<>();
         for(Card card:cardList)
         {
             temp.add(new CardImage(card));
@@ -60,11 +68,11 @@ public class Display extends JPanel{
         listener.updateCardImages(getAllCards());
     }
 
-    public void updateBattlefield()
+    private void updateBattlefield()
     {
         for(int pNum=0;pNum<2;pNum++)
         {
-            List<Permanent> permList = controller.getBattlefield().getPerms();
+            List<Permanent> permList = new ArrayList<>(controller.getBattlefield().getPerms());
             for(int i=0;i<permList.size();i++)
             {
                 if((permList.get(i).getController().getPNum()!=pNum))
@@ -73,7 +81,7 @@ public class Display extends JPanel{
                     i--;
                 }
             }
-            List<CardImage> temp = new ArrayList<CardImage>();
+            List<CardImage> temp = new ArrayList<>();
             for(Card card:permList)
             {
                 temp.add(new CardImage(card));

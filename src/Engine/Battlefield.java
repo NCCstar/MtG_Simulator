@@ -18,6 +18,7 @@ public class Battlefield extends Zone{
     {
         perms.add(in);
         getCards().add(in);
+        //TODO: Actually check entering effects
     }
     public List<Permanent> getPerms()
     {

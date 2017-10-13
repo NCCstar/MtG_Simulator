@@ -1,5 +1,7 @@
 package Engine;
 
+import Graphics.Display;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -17,9 +19,9 @@ public class Controller {
     private BufferedReader reader;
     private PrintStream writer;
     private Random random;
-    private Thread IOHandler;
+    private Display display;
 
-    public Controller(int playerNum,Socket socket)
+    public Controller(int playerNum, Socket socket)
     {
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -33,7 +35,7 @@ public class Controller {
             writer = new PrintStream(System.out);
             random = new Random(1701);
         }
-        
+
         exile = new Exile();
         stack = new Stack();
         battlefield = new Battlefield();
@@ -47,20 +49,22 @@ public class Controller {
             players.get(i).shuffle();
             players.get(i).draw(7);
         }
-        new Thread(){
-            public void run()
-            {
-                while(true)
-                {
-                    try {
-                        String read = reader.readLine();
-                        handleAction(read);
-                    }
-                    catch(IOException e)
-                    { }
-                }
+
+        new Thread(()->
+        {
+            while (true) {
+                try {
+                    String read = reader.readLine();
+                    handleAction(read);
+                } catch (IOException e)
+                { }
             }
-        }.run();
+        }).start();
+    }
+
+    public void setDisplay(Display display)
+    {
+        this.display = display;
     }
 
     public Random getRandom()
@@ -99,14 +103,16 @@ public class Controller {
         {
             System.out.println("Player "+split[1]+" playing "+split[3]);
             players.get(Integer.parseInt(split[2])).playCard(CardMapper.map(split[3]));
+            display.update();
         }
     }
 
-    public void playCard(Player player, Card card)
+    public void playCardHere(Player player, Card card)
     {
         if(player.playCard(card))
         {
             writer.println("Direct*Play*"+card.getOwner().getPNum()+"*"+card.getName());
+            display.update();
         }
     }
 }

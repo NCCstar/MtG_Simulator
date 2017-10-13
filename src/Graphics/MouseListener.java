@@ -1,6 +1,7 @@
 package Graphics;
 
 import Engine.Card;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -39,6 +40,7 @@ public class MouseListener implements java.awt.event.MouseListener {
         CardImage clicked = findClicked(e);
         if(clicked!=null)
         {
+            System.out.println("Card clicked not null");
             Card found = clicked.getOrigin();
             if(e.getButton()==MouseEvent.BUTTON3)
             {
@@ -46,8 +48,13 @@ public class MouseListener implements java.awt.event.MouseListener {
             }
             if(e.getButton()==MouseEvent.BUTTON1)
             {
-                display.getController().playCard(found.getOwner(),found);
+                System.out.println("Playing card");
+                display.getController().playCardHere(found.getOwner(),found);
             }
+        }
+        else
+        {
+            System.out.println("Card clicked null");
         }
     }
 
