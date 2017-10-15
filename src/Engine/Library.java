@@ -31,6 +31,24 @@ public class Library extends Zone{
         }
         setCards(cards);
     }
+    public Library(List<String> cardsIn, Player owner)
+    {
+        this.owner = owner;
+        List<Card> cards = new ArrayList<>();
+
+        for(String input:cardsIn)
+        {
+            String[] line = input.split("\\*");
+            for (int i = 0; i < Integer.parseInt(line[1]); i++) {
+                Card in = CardMapper.map(line[0]);
+                in.setOwner(owner);
+                cards.add(in);
+            }
+        }
+    }
+
+
+
     public void shuffle()
     {
         Collections.shuffle(getCards(),owner.getController().getRandom());

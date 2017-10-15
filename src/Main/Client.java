@@ -44,15 +44,14 @@ public class Client {
         {
             while(true)
             {
-                Scanner scanner = new Scanner(System.in);
                 String host = JOptionPane.showInputDialog("Name of host?");
                 int port = 0;
                 while (true) {
                     try {
                         port = Integer.parseInt(JOptionPane.showInputDialog("Port number?"));
                         break;
-                    } catch (NumberFormatException e) {
-                    }
+                    } catch (NumberFormatException e)
+                    { }
                 }
                 try {
                     connection = new Socket(host, port);

@@ -26,6 +26,15 @@ public class Player {
         command = new Command();
         this.pNum = pNum;
     }
+    public Player(Controller controller, List<String> deckList, int pNum)
+    {
+        this.controller = controller;
+        hand = new Hand();
+        library = new Library(deckList,this);
+        graveyard = new Graveyard();
+        command = new Command();
+        this.pNum = pNum;
+    }
 
     public void hasPriority()
     {

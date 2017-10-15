@@ -2,11 +2,10 @@ package Engine;
 
 import Graphics.Display;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Family on 6/6/17.
@@ -30,31 +29,30 @@ public class Controller {
             long seed = Long.parseLong(reader.readLine());
             System.out.println(seed);
             random = new Random(seed);
+            writer.println("Ready");
+            while(!reader.readLine().equals("Ready"))
+            { }
         } catch(IOException e){
             reader = new BufferedReader(new InputStreamReader(System.in));
             writer = new PrintStream(System.out);
             random = new Random(1701);
         }
 
+
         exile = new Exile();
         stack = new Stack();
         battlefield = new Battlefield();
         players = new ArrayList<>();
-        for(int i=0;i<playerNum;i++)
-        {
-            if(i==0)
-                players.add(new Player(this,"MyDeck.txt",i));
-            else
-                players.add(new Player(this,"MyOtherDeck.txt",i));
-            players.get(i).shuffle();
-            players.get(i).draw(7);
-        }
 
-        new Thread(()->
+        setupPlayers(playerNum);
+
+        new Thread( ()->
         {
-            while (true) {
+            while(true)
+            {
                 try {
                     String read = reader.readLine();
+                    System.out.println("Recieved: " + read);
                     handleAction(read);
                 } catch (IOException e)
                 { }
@@ -95,14 +93,67 @@ public class Controller {
         return players.get(0);
     }
 
-    public void handleAction(String action)
+    private void setupPlayers(int playerNum)
+    {
+        File browser = new File("./Decks/");
+        if(!browser.isDirectory())
+            throw new IllegalStateException("Somehow, you made 'Decks' a file.");
+        String[] files = browser.list();
+        String deckName = (String)(JOptionPane.showInputDialog(null,"How many players?","Players",JOptionPane.INFORMATION_MESSAGE, null,files, files[0]));
+
+        //write my deck to other player
+        browser = new File("./Decks/"+deckName);
+        try
+        {
+            Scanner scanner = new Scanner(browser);
+            writer.println("Direct*Deck");
+            while(scanner.hasNextLine())
+            {
+                writer.println(scanner.nextLine());
+            }
+            writer.println("Direct*Deck");
+        } catch(IOException e)
+        {
+            System.out.println("It broke. Restart pls.");
+        }
+        //receive other deck
+        try {
+            List<String> deckList = new ArrayList<>();
+            String line = reader.readLine();
+            if (line.equals("Direct*Deck"))
+            {
+                line = reader.readLine();
+                while(!line.equals("Direct*Deck"))
+                {
+                    deckList.add(line);
+                    line = reader.readLine();
+                }
+            }
+            players.add(new Player(this, deckList,0));
+        } catch(IOException e)
+        {
+            System.out.println("It broke. Restart pls.");
+        }
+
+        players.add(new Player(this, deckName,1));
+
+        for(int i=0;i<playerNum;i++)
+        {
+            players.get(i).shuffle();
+            players.get(i).draw(7);
+        }
+    }
+
+    private void handleAction(String action)
     {
         System.out.println("Action Recieved: "+action);
         String[] split = action.split("\\*");
         if(split[1].equals("Play"))
         {
-            System.out.println("Player "+split[1]+" playing "+split[3]);
-            players.get(Integer.parseInt(split[2])).playCard(CardMapper.map(split[3]));
+            int pNum = Integer.parseInt(split[2]);
+            String cardName = split[3];
+            System.out.println("Player "+pNum+" playing "+cardName);
+            players.get(pNum).playCard(CardMapper.map(cardName));
             display.update();
         }
     }

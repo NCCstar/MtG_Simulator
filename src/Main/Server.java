@@ -7,6 +7,7 @@ import java.util.Random;
 public class Server implements Runnable {
     private ServerSocket server;
     private int connections;
+    private int numReady;
     public Server()
     {}
     public void run() {
@@ -32,42 +33,38 @@ public class Server implements Runnable {
             output[1] = new PrintStream(socket[1].getOutputStream());
             final long ranSeed = new Random().nextLong();
 
-                new Thread(() ->
+            for(int i = 0; i < 2; i++)
+            {
+                final int index = i;
+                new Thread( () ->
                 {
-                        try
-                        {
-                            String line = input[1].readLine();
-                            if (line != null) {
-                                System.out.println("S:"+1+": I hear: " + line);
+                    while (true)
+                    {
+                        try {
+                            String line = input[index].readLine();
+                            System.out.println("S:" + index + " I hear: " + line);
+                            if(line!=null) {
                                 if (line.equals("Random?")) {
-                                    output[1].println(ranSeed);
+                                    output[index].println(ranSeed);
                                 }
                                 if (line.indexOf("Direct") == 0) {
-                                    output[1 ^ 1].println(line);
+                                    output[index ^ 1].println(line);
+                                }
+                                if (line.equals("Ready"))
+                                {
+                                    numReady++;
+                                    if(numReady>=2)
+                                    {
+                                        output[0].println("Ready");
+                                        output[1].println("Ready");
+                                    }
                                 }
                             }
-                        } catch (IOException e)
-                        { }
-                }).start();
-
-            new Thread(() ->
-            {
-                try
-                {
-                    String line = input[0].readLine();
-                    if (line != null) {
-                        System.out.println("S:"+0+": I hear: " + line);
-                        if (line.equals("Random?")) {
-                            output[0].println(ranSeed);
-                        }
-                        if (line.indexOf("Direct") == 0) {
-                            output[0 ^ 1].println(line);
+                        } catch (IOException e) {
                         }
                     }
-                } catch (IOException e)
-                { }
-            }).start();
-
+                }).start();
+            }
         }
         catch(IOException e)
         {
