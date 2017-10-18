@@ -150,7 +150,7 @@ public class Controller {
         String[] split = action.split("\\*");
         if(split[1].equals("Play"))
         {
-            int pNum = Integer.parseInt(split[2]);
+            int pNum = Integer.parseInt(split[2])^1;
             String cardName = split[3];
             System.out.println("Player "+pNum+" playing "+cardName);
             players.get(pNum).playCard(CardMapper.map(cardName));

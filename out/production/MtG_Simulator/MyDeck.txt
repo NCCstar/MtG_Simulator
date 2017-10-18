@@ -1,4 +1,1 @@
-Plains*10
-Mountain*10
-Hyena Pack*20
-Expedition Envoy*20
+Island*40
