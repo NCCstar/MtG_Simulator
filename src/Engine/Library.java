@@ -45,6 +45,7 @@ public class Library extends Zone{
                 cards.add(in);
             }
         }
+        setCards(cards);
     }
 
 

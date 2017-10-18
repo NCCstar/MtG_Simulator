@@ -99,7 +99,7 @@ public class Controller {
         if(!browser.isDirectory())
             throw new IllegalStateException("Somehow, you made 'Decks' a file.");
         String[] files = browser.list();
-        String deckName = (String)(JOptionPane.showInputDialog(null,"How many players?","Players",JOptionPane.INFORMATION_MESSAGE, null,files, files[0]));
+        String deckName = (String)(JOptionPane.showInputDialog(null,"Which deck?","Deck?",JOptionPane.INFORMATION_MESSAGE, null,files, files[0]));
 
         //write my deck to other player
         browser = new File("./Decks/"+deckName);
@@ -109,7 +109,7 @@ public class Controller {
             writer.println("Direct*Deck");
             while(scanner.hasNextLine())
             {
-                writer.println(scanner.nextLine());
+                writer.println("Direct*"+scanner.nextLine());
             }
             writer.println("Direct*Deck");
         } catch(IOException e)
@@ -125,7 +125,7 @@ public class Controller {
                 line = reader.readLine();
                 while(!line.equals("Direct*Deck"))
                 {
-                    deckList.add(line);
+                    deckList.add(line.substring(7));
                     line = reader.readLine();
                 }
             }
