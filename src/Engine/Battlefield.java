@@ -1,12 +1,11 @@
 package Engine;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Family on 6/6/17.
  */
-public class Battlefield extends Zone{
+public class Battlefield extends Zone {
     private List<Permanent> perms;
 
     public Battlefield()
@@ -19,6 +18,11 @@ public class Battlefield extends Zone{
         perms.add(in);
         getCards().add(in);
         //TODO: Actually check entering effects
+    }
+    @Override
+    public Iterator iterator()
+    {
+        return perms.iterator();
     }
     public List<Permanent> getPerms()
     {

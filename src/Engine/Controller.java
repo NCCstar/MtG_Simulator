@@ -15,10 +15,14 @@ public class Controller {
     private Stack stack;
     private Battlefield battlefield;
     private List<Player> players;
+    private Player active;
     private BufferedReader reader;
     private PrintStream writer;
     private Random random;
     private Display display;
+    private Step step;
+    private int activeIndex;
+    private int turnCount;
 
     public Controller(int playerNum, Socket socket)
     {
@@ -58,6 +62,54 @@ public class Controller {
                 { }
             }
         }).start();
+        turnCount = 0;
+        step = Step.Cleanup;
+    }
+
+    public void nextStep()
+    {
+        step = step.nextStep();
+        if(step == Step.Untap)
+            turnCount++;
+        switch(step)
+        {
+
+            case Untap:
+                for(Card card: battlefield)
+                {
+                    Permanent perm = (Permanent)(card);
+                    if(perm.getController() == active)
+                        perm.untap();
+                }
+                break;
+            case Upkeep:
+
+                break;
+            case Draw:
+                if(turnCount != 1)
+                {
+                    active.draw(1);
+                }
+                break;
+            case Main1:
+                break;
+            case BeginCombat:
+                break;
+            case DeclareAttackers:
+                break;
+            case DeclareBlockers:
+                break;
+            case Damage:
+                break;
+            case EndCombat:
+                break;
+            case Main2:
+                break;
+            case End:
+                break;
+            case Cleanup:
+                break;
+        }
     }
 
     public void setDisplay(Display display)
@@ -146,7 +198,7 @@ public class Controller {
 
     private void handleAction(String action)
     {
-        System.out.println("Action Recieved: "+action);
+        System.out.println("Action Received: "+action);
         String[] split = action.split("\\*");
         if(split[1].equals("Play"))
         {
