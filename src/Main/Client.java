@@ -7,10 +7,8 @@ import Graphics.Display;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Family on 6/6/17.

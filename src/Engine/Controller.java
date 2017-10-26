@@ -20,8 +20,7 @@ public class Controller {
     private PrintStream writer;
     private Random random;
     private Display display;
-    private Step step;
-    private int activeIndex;
+    public Step step;
     private int turnCount;
 
     public Controller(int playerNum, Socket socket)
@@ -62,6 +61,7 @@ public class Controller {
                 { }
             }
         }).start();
+
         turnCount = 0;
         step = Step.Cleanup;
     }
@@ -73,7 +73,6 @@ public class Controller {
             turnCount++;
         switch(step)
         {
-
             case Untap:
                 for(Card card: battlefield)
                 {
@@ -83,7 +82,7 @@ public class Controller {
                 }
                 break;
             case Upkeep:
-
+                //
                 break;
             case Draw:
                 if(turnCount != 1)
@@ -203,19 +202,22 @@ public class Controller {
         if(split[1].equals("Play"))
         {
             int pNum = Integer.parseInt(split[2])^1;
-            String cardName = split[3];
-            System.out.println("Player "+pNum+" playing "+cardName);
-            players.get(pNum).playCard(CardMapper.map(cardName));
-            display.update();
+            if(players.get(pNum) == active) {
+                String cardName = split[3];
+                System.out.println("Player " + pNum + " playing " + cardName);
+                players.get(pNum).playCard(CardMapper.map(cardName));
+                display.update();
+            }
         }
     }
 
     public void playCardHere(Player player, Card card)
     {
-        if(player.playCard(card))
-        {
-            writer.println("Direct*Play*"+card.getOwner().getPNum()+"*"+card.getName());
-            display.update();
+        if(player == active) {
+            if (player.playCard(card)) {
+                writer.println("Direct*Play*" + card.getOwner().getPNum() + "*" + card.getName());
+                display.update();
+            }
         }
     }
 }

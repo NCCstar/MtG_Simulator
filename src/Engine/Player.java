@@ -53,8 +53,11 @@ public class Player {
         List<Type> types = ref.getTypes();
         if(types.contains(Type.Land))
         {
-            Permanent land = new Permanent(ref,this);
-            controller.getBattlefield().enter(land);
+            if(getController().step.isMain()) {
+                //special action:
+                Permanent land = new Permanent(ref, this);
+                controller.getBattlefield().enter(land);
+            }
         }
         else
         {

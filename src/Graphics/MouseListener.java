@@ -1,7 +1,6 @@
 package Graphics;
 
 import Engine.Card;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -37,6 +36,12 @@ public class MouseListener implements java.awt.event.MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(display.rect.contains(e.getX(), e.getY()))
+        {
+            System.out.println("D: Passing Priority");
+            //pass priority
+            return;
+        }
         CardImage clicked = findClicked(e);
         if(clicked!=null)
         {

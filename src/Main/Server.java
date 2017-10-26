@@ -32,7 +32,7 @@ public class Server implements Runnable {
             input[1] = new BufferedReader(new InputStreamReader(socket[1].getInputStream()));
             output[1] = new PrintStream(socket[1].getOutputStream());
             final long ranSeed = new Random().nextLong();
-
+            final int first = (int)(Math.random()*2);
             for(int i = 0; i < 2; i++)
             {
                 final int index = i;
@@ -44,13 +44,13 @@ public class Server implements Runnable {
                             String line = input[index].readLine();
                             System.out.println("S:" + index + " I hear: " + line);
                             if(line!=null) {
-                                if (line.equals("Random?")) {
+                                if(line.equals("Random?")) {
                                     output[index].println(ranSeed);
                                 }
-                                if (line.indexOf("Direct") == 0) {
+                                if(line.indexOf("Direct") == 0) {
                                     output[index ^ 1].println(line);
                                 }
-                                if (line.equals("Ready"))
+                                if(line.equals("Ready"))
                                 {
                                     numReady++;
                                     if(numReady>=2)
@@ -58,6 +58,13 @@ public class Server implements Runnable {
                                         output[0].println("Ready");
                                         output[1].println("Ready");
                                     }
+                                }
+                                if(line.equals("First?"))
+                                {
+                                    if(index == 1)
+                                        output[index].println(first^1);
+                                    else
+                                        output[index].println(first);
                                 }
                             }
                         } catch (IOException e) {

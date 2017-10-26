@@ -22,7 +22,8 @@ public class Display extends JPanel{
     private MouseListener listener;
     private List<CardImage>[] hands = new ArrayList[2];
     private List<CardImage>[] battlefields = new ArrayList[2];
-    private double halfHeight;
+    //PACKAGE-PRIVATE!!! HAHAHAHA
+    Rectangle rect;
 
     public Display(Controller controller)
     {
@@ -37,6 +38,7 @@ public class Display extends JPanel{
         CardImage.setHeight(CARD_HEIGHT);
         CardImage.setWidth(CARD_WIDTH);
         listener = new MouseListener(this);
+
     }
 
     public List<CardImage> getAllCards()
@@ -97,7 +99,9 @@ public class Display extends JPanel{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        halfHeight = getHeight()/2.0;
+        if(rect == null)
+            rect = new Rectangle(getWidth() - (int)CARD_WIDTH, getHeight() - (int)CARD_HEIGHT, (int)(CARD_HEIGHT*1.5), (int)(CARD_WIDTH*1.5));
+        double halfHeight = getHeight()/2.0;
         g.setColor(Color.black);
         g.drawLine(0,getHeight()/2,getWidth(),getHeight()/2);
         //assuming 2 players
@@ -129,6 +133,8 @@ public class Display extends JPanel{
             drawn.setY(getHeight()-10-CARD_HEIGHT);
             drawn.draw(g);
         }
+        g.setColor(Color.RED.darker());
+        g.fillRect(rect.x, rect.y, rect.width, rect.height);
         listener.updateCardImages(getAllCards());
     }
 }

@@ -46,4 +46,8 @@ public enum Step {
                 throw new IllegalStateException("Literally impossible bad step.");
         }
     }
+    public boolean isMain()
+    {
+        return this == Main1 || this == Main2;
+    }
 }
