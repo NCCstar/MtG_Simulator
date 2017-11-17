@@ -23,8 +23,7 @@ public class Controller {
     public Step step;
     private int turnCount;
 
-    public Controller(int playerNum, Socket socket)
-    {
+    public Controller(int playerNum, Socket socket) {
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintStream(socket.getOutputStream());
@@ -33,9 +32,9 @@ public class Controller {
             System.out.println(seed);
             random = new Random(seed);
             writer.println("Ready");
-            while(!reader.readLine().equals("Ready"))
-            { }
-        } catch(IOException e){
+            while (!reader.readLine().equals("Ready")) {
+            }
+        } catch (IOException e) {
             reader = new BufferedReader(new InputStreamReader(System.in));
             writer = new PrintStream(System.out);
             random = new Random(1701);
@@ -49,16 +48,15 @@ public class Controller {
 
         setupPlayers(playerNum);
 
-        new Thread( ()->
+        new Thread(() ->
         {
-            while(true)
-            {
+            while (true) {
                 try {
                     String read = reader.readLine();
                     System.out.println("Recieved: " + read);
                     handleAction(read);
-                } catch (IOException e)
-                { }
+                } catch (IOException e) {
+                }
             }
         }).start();
 
@@ -66,18 +64,43 @@ public class Controller {
         step = Step.Cleanup;
     }
 
-    public void nextStep()
-    {
+    public void checkStateActions() {
+        for (Player player : players) {
+            if (player.getLife() <= 0) {
+                //TODO: lose the game
+            }
+        }
+        List<Permanent> legendaries = new ArrayList<>();
+        for (Permanent perm : battlefield.getPerms()) {
+            if (perm.getTypes().contains(Type.Creature)) {
+                if (perm.getToughness() - perm.getDamage() <= 0) {
+                    //TODO: kill creature
+                }
+            }
+            if (perm.getTypes().contains(Type.Planeswalker)) {
+                if(!perm.getCounters().contains(Counter.Loyalty)){
+                    //TODO: kill planeswalker
+                }
+            }
+            if(perm.getSupertypes().contains(Supertype.Legendary)) {
+                if(legendaries.contains(perm)) {
+                    //TODO: sac a legend
+                } else {
+                    legendaries.add(perm);
+                }
+            }
+        }
+    }
+
+    public void nextStep() {
         step = step.nextStep();
-        if(step == Step.Untap)
+        if (step == Step.Untap)
             turnCount++;
-        switch(step)
-        {
+        switch (step) {
             case Untap:
-                for(Card card: battlefield)
-                {
-                    Permanent perm = (Permanent)(card);
-                    if(perm.getController() == active)
+                for (Card card : battlefield) {
+                    Permanent perm = (Permanent) (card);
+                    if (perm.getController() == active)
                         perm.untap();
                 }
                 break;
@@ -85,8 +108,7 @@ public class Controller {
                 //
                 break;
             case Draw:
-                if(turnCount != 1)
-                {
+                if (turnCount != 1) {
                     active.draw(1);
                 }
                 break;
@@ -111,13 +133,11 @@ public class Controller {
         }
     }
 
-    public void setDisplay(Display display)
-    {
+    public void setDisplay(Display display) {
         this.display = display;
     }
 
-    public Random getRandom()
-    {
+    public Random getRandom() {
         return random;
     }
 
@@ -137,72 +157,61 @@ public class Controller {
         return players;
     }
 
-    public Player getOpponent(Player p)
-    {
-        if(p==players.get(0))
+    public Player getOpponent(Player p) {
+        if (p == players.get(0))
             return players.get(1);
         return players.get(0);
     }
 
-    private void setupPlayers(int playerNum)
-    {
+    private void setupPlayers(int playerNum) {
         File browser = new File("./Decks/");
-        if(!browser.isDirectory())
+        if (!browser.isDirectory())
             throw new IllegalStateException("Somehow, you made 'Decks' a file.");
         String[] files = browser.list();
-        String deckName = (String)(JOptionPane.showInputDialog(null,"Which deck?","Deck?",JOptionPane.INFORMATION_MESSAGE, null,files, files[0]));
+        String deckName = (String) (JOptionPane.showInputDialog(null, "Which deck?", "Deck?", JOptionPane.INFORMATION_MESSAGE, null, files, files[0]));
 
         //write my deck to other player
-        browser = new File("./Decks/"+deckName);
-        try
-        {
+        browser = new File("./Decks/" + deckName);
+        try {
             Scanner scanner = new Scanner(browser);
             writer.println("Direct*Deck");
-            while(scanner.hasNextLine())
-            {
-                writer.println("Direct*"+scanner.nextLine());
+            while (scanner.hasNextLine()) {
+                writer.println("Direct*" + scanner.nextLine());
             }
             writer.println("Direct*Deck");
-        } catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("It broke. Restart pls.");
         }
         //receive other deck
         try {
             List<String> deckList = new ArrayList<>();
             String line = reader.readLine();
-            if (line.equals("Direct*Deck"))
-            {
+            if (line.equals("Direct*Deck")) {
                 line = reader.readLine();
-                while(!line.equals("Direct*Deck"))
-                {
+                while (!line.equals("Direct*Deck")) {
                     deckList.add(line.substring(7));
                     line = reader.readLine();
                 }
             }
-            players.add(new Player(this, deckList,0));
-        } catch(IOException e)
-        {
+            players.add(new Player(this, deckList, 0));
+        } catch (IOException e) {
             System.out.println("It broke. Restart pls.");
         }
 
-        players.add(new Player(this, deckName,1));
+        players.add(new Player(this, deckName, 1));
 
-        for(int i=0;i<playerNum;i++)
-        {
+        for (int i = 0; i < playerNum; i++) {
             players.get(i).shuffle();
             players.get(i).draw(7);
         }
     }
 
-    private void handleAction(String action)
-    {
-        System.out.println("Action Received: "+action);
+    private void handleAction(String action) {
+        System.out.println("Action Received: " + action);
         String[] split = action.split("\\*");
-        if(split[1].equals("Play"))
-        {
-            int pNum = Integer.parseInt(split[2])^1;
-            if(players.get(pNum) == active) {
+        if (split[1].equals("Play")) {
+            int pNum = Integer.parseInt(split[2]) ^ 1;
+            if (players.get(pNum) == active) {
                 String cardName = split[3];
                 System.out.println("Player " + pNum + " playing " + cardName);
                 players.get(pNum).playCard(CardMapper.map(cardName));
@@ -211,9 +220,8 @@ public class Controller {
         }
     }
 
-    public void playCardHere(Player player, Card card)
-    {
-        if(player == active) {
+    public void playCardHere(Player player, Card card) {
+        if (player == active) {
             if (player.playCard(card)) {
                 writer.println("Direct*Play*" + card.getOwner().getPNum() + "*" + card.getName());
                 display.update();

@@ -15,6 +15,7 @@ public class Player {
     private Controller controller;
 
     private int pNum;
+    private int life;
     private List<Mana> pool;
 
     public Player(Controller controller,String deckName,int pNum)
@@ -25,6 +26,7 @@ public class Player {
         graveyard = new Graveyard();
         command = new Command();
         this.pNum = pNum;
+        life = 20;
     }
     public Player(Controller controller, List<String> deckList, int pNum)
     {
@@ -34,6 +36,7 @@ public class Player {
         graveyard = new Graveyard();
         command = new Command();
         this.pNum = pNum;
+        life = 20;
     }
 
     public void hasPriority()
@@ -107,6 +110,10 @@ public class Player {
 
     public Command getCommand() {
         return command;
+    }
+
+    public int getLife() {
+        return life;
     }
 
     public int getPNum(){return pNum;}
