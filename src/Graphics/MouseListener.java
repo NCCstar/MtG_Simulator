@@ -9,8 +9,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 
     private Display display;
     private List<CardImage> cardsList;
-    public MouseListener(Display display)
-    {
+    public MouseListener(Display display) {
         display.addMouseListener(this);
 
         this.display = display;
@@ -36,29 +35,24 @@ public class MouseListener implements java.awt.event.MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(display.rect.contains(e.getX(), e.getY()))
-        {
+        if(display.pass.contains(e.getX(), e.getY())) {
             System.out.println("D: Passing Priority");
             //pass priority
             return;
         }
         CardImage clicked = findClicked(e);
-        if(clicked!=null)
-        {
+        if(clicked!=null) {
             System.out.println("Card clicked not null");
             Card found = clicked.getOrigin();
-            if(e.getButton()==MouseEvent.BUTTON3)
-            {
+            if(e.getButton()==MouseEvent.BUTTON3) {
                 System.out.println(found.toString());
             }
-            if(e.getButton()==MouseEvent.BUTTON1)
-            {
+            if(e.getButton()==MouseEvent.BUTTON1) {
                 System.out.println("Playing card");
                 display.getController().playCardHere(found.getOwner(),found);
             }
         }
-        else
-        {
+        else {
             System.out.println("Card clicked null");
         }
     }

@@ -17,6 +17,7 @@ public class Player {
     private int pNum;
     private int life;
     private List<Mana> pool;
+    private boolean active;
 
     public Player(Controller controller,String deckName,int pNum)
     {
@@ -39,9 +40,11 @@ public class Player {
         life = 20;
     }
 
-    public void hasPriority()
-    {
-
+    public void getPriority(){
+        active = true;
+    }
+    public void passPriotiry(){
+        active = false;
     }
 
     //To be done while this player has priority. Will either put a land onto the battlefield or put a spell onto the stack, with no further actions

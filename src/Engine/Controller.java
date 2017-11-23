@@ -48,20 +48,33 @@ public class Controller {
 
         setupPlayers(playerNum);
 
-        new Thread(() ->
-        {
+        new Thread( () -> {
             while (true) {
                 try {
                     String read = reader.readLine();
                     System.out.println("Recieved: " + read);
                     handleAction(read);
-                } catch (IOException e) {
-                }
+                } catch (IOException e) { }
             }
         }).start();
 
         turnCount = 0;
         step = Step.Cleanup;
+
+        active = players.get((int)(Math.random()*players.size()));
+        checkStateActions();
+        active.getPriority();
+    }
+
+    public void setNextActive(){
+        active.passPriotiry();
+        active = players.get((active.getPNum() + 1) % players.size());
+        checkStateActions();
+        active.getPriority();
+    }
+
+    public boolean shownPlayerActive(){
+        return players.get(1) == active;
     }
 
     public void checkStateActions() {

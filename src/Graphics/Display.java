@@ -23,10 +23,9 @@ public class Display extends JPanel{
     private List<CardImage>[] hands = new ArrayList[2];
     private List<CardImage>[] battlefields = new ArrayList[2];
     //PACKAGE-PRIVATE!!! HAHAHAHA
-    Rectangle rect;
+    Rectangle pass;
 
-    public Display(Controller controller)
-    {
+    public Display(Controller controller) {
         for(int i=0;i<hands.length;i++)
             hands[i] = new ArrayList<CardImage>();
         for(int i=0;i<battlefields.length;i++)
@@ -41,8 +40,7 @@ public class Display extends JPanel{
 
     }
 
-    public List<CardImage> getAllCards()
-    {
+    public List<CardImage> getAllCards() {
         List<CardImage> ans = new ArrayList<>();
         ans.addAll(hands[0]);
         ans.addAll(hands[1]);
@@ -51,15 +49,14 @@ public class Display extends JPanel{
         return ans;
     }
 
-    public void update()
-    {
+    public void update() {
         updateBattlefield();
         updateHand(0);
         updateHand(1);
         repaint();
     }
-    private void updateHand(int pNum)
-    {
+
+    private void updateHand(int pNum) {
         List<Card> cardList = controller.getPlayers().get(pNum).getHand().getCards();
         List<CardImage> temp = new ArrayList<>();
         for(Card card:cardList)
@@ -70,24 +67,13 @@ public class Display extends JPanel{
         listener.updateCardImages(getAllCards());
     }
 
-    private void updateBattlefield()
-    {
-        for(int pNum=0;pNum<2;pNum++)
-        {
-            List<Permanent> permList = new ArrayList<>(controller.getBattlefield().getPerms());
-            for(int i=0;i<permList.size();i++)
-            {
-                if((permList.get(i).getController().getPNum()!=pNum))
-                {
-                    permList.remove(i);
-                    i--;
-                }
-            }
+    private void updateBattlefield() {
+        for(int pNum=0;pNum<2;pNum++) {
+            final int playerNumber = pNum;
             List<CardImage> temp = new ArrayList<>();
-            for(Card card:permList)
-            {
-                temp.add(new CardImage(card));
-            }
+            controller.getBattlefield().getPerms().stream()
+                    .filter(p -> p.getController().getPNum() == playerNumber)
+                    .forEach(p -> temp.add(new CardImage(p)));
             battlefields[pNum]=temp;
         }
         listener.updateCardImages(getAllCards());
@@ -99,42 +85,40 @@ public class Display extends JPanel{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(rect == null)
-            rect = new Rectangle(getWidth() - (int)CARD_WIDTH, getHeight() - (int)CARD_HEIGHT, (int)(CARD_HEIGHT*1.5), (int)(CARD_WIDTH*1.5));
+        if(pass == null)
+            pass = new Rectangle(getWidth() - (int)CARD_WIDTH*2, getHeight() - (int)CARD_HEIGHT*2, (int)(CARD_HEIGHT*1.5), (int)(CARD_WIDTH*1.5));
         double halfHeight = getHeight()/2.0;
         g.setColor(Color.black);
         g.drawLine(0,getHeight()/2,getWidth(),getHeight()/2);
         //assuming 2 players
-        for(int i=0;i<hands[0].size();i++)
-        {
+        for(int i=0;i<hands[0].size();i++) {
             CardImage drawn = hands[0].get(i);
             drawn.setX(i*(CARD_WIDTH+10)+10);
             drawn.setY(10);
             drawn.draw(g);
         }
-        for(int i=0;i<battlefields[0].size();i++)
-        {
+        for(int i=0;i<battlefields[0].size();i++) {
             CardImage drawn = battlefields[0].get(i);
             drawn.setX(i*(CARD_WIDTH+10)+10);
             drawn.setY(halfHeight-20-CARD_HEIGHT);
             drawn.draw(g);
         }
-        for(int i=0;i<battlefields[1].size();i++)
-        {
+        for(int i=0;i<battlefields[1].size();i++) {
             CardImage drawn = battlefields[1].get(i);
             drawn.setX(i*(CARD_WIDTH+10)+10);
             drawn.setY(halfHeight+20+CARD_HEIGHT);
             drawn.draw(g);
         }
-        for(int i=0;i<hands[1].size();i++)
-        {
+        for(int i=0;i<hands[1].size();i++) {
             CardImage drawn = hands[1].get(i);
             drawn.setX(i*(CARD_WIDTH+10)+10);
             drawn.setY(getHeight()-10-CARD_HEIGHT);
             drawn.draw(g);
         }
         g.setColor(Color.RED.darker());
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        g.fillRect(pass.x, pass.y, pass.width, pass.height);
+        if(controller.shownPlayerActive())
+            g.drawString("You are the ACTIVE PLAYER",0,(int)halfHeight);
         listener.updateCardImages(getAllCards());
     }
 }
