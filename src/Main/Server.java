@@ -37,7 +37,7 @@ public class Server implements Runnable {
                     while (true) {
                         try {
                             String line = input[index].readLine();
-                            System.out.println("S:" + index + " I hear: " + line);
+                            System.out.println("S:" + index + ": I hear: " + line);
                             if(line!=null) {
                                 if(line.equals("Random?")) {
                                     output[index].println(ranSeed);
@@ -57,6 +57,10 @@ public class Server implements Runnable {
                                         output[index].println(first^1);
                                     else
                                         output[index].println(first);
+                                }
+                                if(line.equals("Repaint")){
+                                    output[0].println("Repaint");
+                                    output[1].println("Repaint");
                                 }
                             }
                         } catch (IOException e) { }

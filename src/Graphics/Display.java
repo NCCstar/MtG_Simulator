@@ -1,6 +1,7 @@
 package Graphics;
 
 import Engine.Card;
+import Engine.Step;
 import Engine.Controller;
 import Engine.Permanent;
 import Engine.Zone;
@@ -37,7 +38,6 @@ public class Display extends JPanel{
         CardImage.setHeight(CARD_HEIGHT);
         CardImage.setWidth(CARD_WIDTH);
         listener = new MouseListener(this);
-
     }
 
     public List<CardImage> getAllCards() {
@@ -117,8 +117,14 @@ public class Display extends JPanel{
         }
         g.setColor(Color.RED.darker());
         g.fillRect(pass.x, pass.y, pass.width, pass.height);
-        if(controller.shownPlayerActive())
-            g.drawString("You are the ACTIVE PLAYER",0,(int)halfHeight);
+        g.setColor(Color.BLACK);
+        g.drawString(controller.step.toString(), getWidth()-100, (int)halfHeight);
+        if(controller.shownPlayerActive()) {
+            g.drawString("You are the ACTIVE PLAYER", 0, (int) halfHeight);
+        }
         listener.updateCardImages(getAllCards());
+    }
+    public static Color inverseColor(Color c) {
+        return new Color((c.getRed()+128)%256,(c.getGreen()+128)%256,(c.getBlue()+128)%256);
     }
 }

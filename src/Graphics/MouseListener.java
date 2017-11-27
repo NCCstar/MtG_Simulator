@@ -36,8 +36,13 @@ public class MouseListener implements java.awt.event.MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(display.pass.contains(e.getX(), e.getY())) {
-            System.out.println("D: Passing Priority");
-            //pass priority
+            if(display.getController().shownPlayerActive()) {
+                System.out.println("D: Passing Priority");
+                //pass priority
+                display.getController().startPassPriority();
+            } else {
+                System.out.println("D: Can't pass priority you don't got.");
+            }
             return;
         }
         CardImage clicked = findClicked(e);

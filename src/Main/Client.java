@@ -43,7 +43,7 @@ public class Client {
             while(true)
             {
                 String host = JOptionPane.showInputDialog("Name of host?");
-                int port = 0;
+                int port;
                 while (true) {
                     try {
                         port = Integer.parseInt(JOptionPane.showInputDialog("Port number?"));

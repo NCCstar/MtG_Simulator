@@ -16,6 +16,7 @@ public class Controller {
     private Battlefield battlefield;
     private List<Player> players;
     private Player active;
+    private Player turn;
     private BufferedReader reader;
     private PrintStream writer;
     private Random random;
@@ -61,7 +62,14 @@ public class Controller {
         turnCount = 0;
         step = Step.Cleanup;
 
-        active = players.get((int)(Math.random()*players.size()));
+        try {
+        writer.println("First?");
+        active = players.get(Integer.parseInt(reader.readLine()));
+        turn = active;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         checkStateActions();
         active.getPriority();
     }
@@ -77,6 +85,27 @@ public class Controller {
         return players.get(1) == active;
     }
 
+    public void startPassPriority() {
+        writer.println("Direct*PassPriority");
+        passPriority();
+    }
+
+    public void passPriority(){
+        if(stack.isEmpty()) {
+            if(active == turn) {
+                setNextActive();
+            } else {
+                nextStep();
+            }
+        }
+        if(stack.top().getController() == active) {
+            setNextActive();
+        } else {
+            stack.pop().resolve();
+            setNextActive();
+        }
+    }
+
     public void checkStateActions() {
         for (Player player : players) {
             if (player.getLife() <= 0) {
@@ -84,7 +113,9 @@ public class Controller {
             }
         }
         List<Permanent> legendaries = new ArrayList<>();
-        for (Permanent perm : battlefield.getPerms()) {
+        battlefield.getPerms().stream()
+                .filter( p -> p.getController() == active)
+                .forEach( perm -> {
             if (perm.getTypes().contains(Type.Creature)) {
                 if (perm.getToughness() - perm.getDamage() <= 0) {
                     //TODO: kill creature
@@ -102,13 +133,15 @@ public class Controller {
                     legendaries.add(perm);
                 }
             }
-        }
+        });
     }
 
     public void nextStep() {
         step = step.nextStep();
-        if (step == Step.Untap)
+        if (step == Step.Untap) {
             turnCount++;
+            setNextActive();
+        }
         switch (step) {
             case Untap:
                 for (Card card : battlefield) {
@@ -118,7 +151,7 @@ public class Controller {
                 }
                 break;
             case Upkeep:
-                //
+                //TODO: check upkeep effects
                 break;
             case Draw:
                 if (turnCount != 1) {
@@ -144,6 +177,7 @@ public class Controller {
             case Cleanup:
                 break;
         }
+        display.repaint();
     }
 
     public void setDisplay(Display display) {
@@ -181,7 +215,8 @@ public class Controller {
         if (!browser.isDirectory())
             throw new IllegalStateException("Somehow, you made 'Decks' a file.");
         String[] files = browser.list();
-        String deckName = (String) (JOptionPane.showInputDialog(null, "Which deck?", "Deck?", JOptionPane.INFORMATION_MESSAGE, null, files, files[0]));
+        String deckName = (String) (JOptionPane.showInputDialog(null, "Which deck?",
+                "Deck?", JOptionPane.INFORMATION_MESSAGE, null, files, files[0]));
 
         //write my deck to other player
         browser = new File("./Decks/" + deckName);
@@ -222,14 +257,22 @@ public class Controller {
     private void handleAction(String action) {
         System.out.println("Action Received: " + action);
         String[] split = action.split("\\*");
-        if (split[1].equals("Play")) {
-            int pNum = Integer.parseInt(split[2]) ^ 1;
-            if (players.get(pNum) == active) {
-                String cardName = split[3];
-                System.out.println("Player " + pNum + " playing " + cardName);
-                players.get(pNum).playCard(CardMapper.map(cardName));
-                display.update();
+        if (split[0].equals("Direct")) {
+            if(split[1].equals("Play")) {
+                int pNum = Integer.parseInt(split[2]) ^ 1;
+                if (players.get(pNum) == active) {
+                    String cardName = split[3];
+                    System.out.println("Player " + pNum + " playing " + cardName);
+                    players.get(pNum).playCard(CardMapper.map(cardName));
+                    display.update();
+                }
             }
+            if(split[1].equals("PassPriority")) {
+                passPriority();
+            }
+        }
+        if(split[0].equals("Repaint")) {
+            display.repaint();
         }
     }
 

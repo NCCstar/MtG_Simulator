@@ -17,7 +17,6 @@ public enum Step {
     {
         switch(this)
         {
-
             case Untap:
                 return Step.Upkeep;
             case Upkeep:
