@@ -23,6 +23,7 @@ public class Controller {
     private Display display;
     public Step step;
     private int turnCount;
+    private int passed;
 
     public Controller(int playerNum, Socket socket) {
         try {
@@ -75,7 +76,7 @@ public class Controller {
     }
 
     public void setNextActive(){
-        active.passPriotiry();
+        active.passPriority();
         active = players.get((active.getPNum() + 1) % players.size());
         checkStateActions();
         active.getPriority();
@@ -98,12 +99,18 @@ public class Controller {
                 nextStep();
             }
         }
-        if(stack.top().getController() == active) {
-            setNextActive();
-        } else {
+        if(passed == players.size()){
             stack.pop().resolve();
+            active = turn;
+            passed = 0;
+        } else {
+            passed++;
             setNextActive();
         }
+    }
+
+    public void actionTaken(){
+        passed = 0;
     }
 
     public void checkStateActions() {

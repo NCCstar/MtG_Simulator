@@ -40,10 +40,10 @@ public class Player {
         life = 20;
     }
 
-    public void getPriority(){
+    public void getPriority() {
         active = true;
     }
-    public void passPriotiry(){
+    public void passPriority(){
         active = false;
     }
 
@@ -57,25 +57,20 @@ public class Player {
         //Card is in hand
         Card ref = hand.getCardRef(card);
         List<Type> types = ref.getTypes();
-        if(types.contains(Type.Land))
-        {
+        if(types.contains(Type.Land)) {
             if(getController().step.isMain()) {
                 //special action:
                 Permanent land = new Permanent(ref, this);
                 controller.getBattlefield().enter(land);
             }
-        }
-        else
-        {
+        } else {
+            controller.actionTaken();
             List<Mana> cost = card.getManaCost();
             //pool
-            try
-            {
+            try {
                 pool = Mana.subtract(pool,cost);
                 controller.getStack().add(new Spell(ref,this));
-            }
-            catch(ManaException e)
-            {
+            } catch(ManaException e) {
                 System.out.println("Can't cast - bad mana.");
             }
         }
@@ -83,10 +78,8 @@ public class Player {
         return true;
     }
 
-    public void draw(int num)
-    {
-        for(int i=0;i<num;i++)
-        {
+    public void draw(int num) {
+        for(int i=0;i<num;i++) {
             hand.getCards().add(library.getCards().remove(0));
         }
     }
@@ -121,8 +114,7 @@ public class Player {
 
     public int getPNum(){return pNum;}
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         Player other = (Player)(object);
         return library.equals(other.getLibrary()) && graveyard.equals(other.getGraveyard()) && command.equals(other.getCommand()) && hand.equals(other.getHand());
     }
