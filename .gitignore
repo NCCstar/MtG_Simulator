@@ -4,3 +4,4 @@ out/
 MtG_Sim.iml
 MtG_Simulator.iml
 *.class
+.DS_Store
