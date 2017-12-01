@@ -1,7 +1,0 @@
-Index: full index of all cards usable - most anything can be seperated by commas - spells
-full name*mana cost(3UGR)*supertypes*types*subtype1,subtype2*Spell Ability*Activator:Ability*Trigger:Ability*Static Ability(if creature - *power*toughness)*
-Decks:
-full name*copies
-
-Red Cloner*2RR*Legendary*Creature*Human,Ninja* * *When Red Cloner attacks:You may pay XX. If you do, put X 4/4 red Illusion Ninja tokens named Red Cloner into play tapped and attacking* *4*4*
-UW Copier*3UW*Legendary*Creature*Human,Ninja* *3:UW Copier gains all Activated Abilities of target attacking or blocking creature*You may pay mana as though it were mana of any color to activate UW Copier's activated abilities*3*5*
