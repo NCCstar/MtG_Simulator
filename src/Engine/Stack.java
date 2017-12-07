@@ -10,6 +10,7 @@ public class Stack extends Zone { //TODO: Possibly use a Deque?
     private List<Spell> spells;
     public Stack()
     {
+        spells = new ArrayList<>();
         setCards(new ArrayList<>());
     }
     public void add(Spell spell)

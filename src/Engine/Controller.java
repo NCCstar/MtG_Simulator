@@ -26,6 +26,7 @@ public class Controller {
     private int passed;
 
     public Controller(int playerNum, Socket socket) {
+        int first = 0;
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintStream(socket.getOutputStream());
@@ -33,6 +34,8 @@ public class Controller {
             long seed = Long.parseLong(reader.readLine());
             System.out.println(seed);
             random = new Random(seed);
+            writer.println("First?");
+            first = Integer.parseInt(reader.readLine());
             writer.println("Ready");
             while (!reader.readLine().equals("Ready")) {
             }
@@ -63,13 +66,9 @@ public class Controller {
         turnCount = 0;
         step = Step.Cleanup;
 
-        try {
-        writer.println("First?");
-        active = players.get(Integer.parseInt(reader.readLine()));
+
+        active = players.get(first);
         turn = active;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         checkStateActions();
         active.getPriority();
@@ -86,26 +85,35 @@ public class Controller {
         return players.get(1) == active;
     }
 
+    public boolean shownPlayerTurn() {
+        return players.get(1) == turn;
+    }
+
     public void startPassPriority() {
         writer.println("Direct*PassPriority");
         passPriority();
     }
 
     public void passPriority(){
+        display.repaint();
         if(stack.isEmpty()) {
-            if(active == turn) {
-                setNextActive();
-            } else {
+            if(passed >= players.size()-1) {
                 nextStep();
+                passed = 0;
+                active = turn;
+            } else {
+                passed++;
+                setNextActive();
             }
-        }
-        if(passed == players.size()){
-            stack.pop().resolve();
-            active = turn;
-            passed = 0;
         } else {
-            passed++;
-            setNextActive();
+            if (passed >= players.size()-1) {
+                stack.pop().resolve();
+                active = turn;
+                passed = 0;
+            } else {
+                passed++;
+                setNextActive();
+            }
         }
     }
 
@@ -123,24 +131,24 @@ public class Controller {
         battlefield.getPerms().stream()
                 .filter( p -> p.getController() == active)
                 .forEach( perm -> {
-            if (perm.getTypes().contains(Type.Creature)) {
-                if (perm.getToughness() - perm.getDamage() <= 0) {
-                    //TODO: kill creature
-                }
-            }
-            if (perm.getTypes().contains(Type.Planeswalker)) {
-                if(!perm.getCounters().contains(Counter.Loyalty)){
-                    //TODO: kill planeswalker
-                }
-            }
-            if(perm.getSupertypes().contains(Supertype.Legendary)) {
-                if(legendaries.contains(perm)) {
-                    //TODO: sac a legend
-                } else {
-                    legendaries.add(perm);
-                }
-            }
-        });
+                    if (perm.getTypes().contains(Type.Creature)) {
+                        if (perm.getToughness() - perm.getDamage() <= 0) {
+                            //TODO: kill creature
+                        }
+                    }
+                    if (perm.getTypes().contains(Type.Planeswalker)) {
+                        if(!perm.getCounters().contains(Counter.Loyalty)){
+                            //TODO: kill planeswalker
+                        }
+                    }
+                    if(perm.getSupertypes().contains(Supertype.Legendary)) {
+                        if(legendaries.contains(perm)) {
+                            //TODO: sac a legend
+                        } else {
+                            legendaries.add(perm);
+                        }
+                    }
+                });
     }
 
     public void nextStep() {
@@ -156,6 +164,7 @@ public class Controller {
                     if (perm.getController() == active)
                         perm.untap();
                 }
+                nextStep();
                 break;
             case Upkeep:
                 //TODO: check upkeep effects
@@ -164,6 +173,7 @@ public class Controller {
                 if (turnCount != 1) {
                     active.draw(1);
                 }
+                nextStep();
                 break;
             case Main1:
                 break;

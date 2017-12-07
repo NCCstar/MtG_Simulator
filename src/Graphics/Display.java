@@ -120,7 +120,10 @@ public class Display extends JPanel{
         g.setColor(Color.BLACK);
         g.drawString(controller.step.toString(), getWidth()-100, (int)halfHeight);
         if(controller.shownPlayerActive()) {
-            g.drawString("You are the ACTIVE PLAYER", 0, (int) halfHeight);
+            g.drawString("You are the ACTIVE PLAYER", 0, (int) halfHeight-10);
+        }
+        if(controller.shownPlayerTurn()) {
+            g.drawString("It is YOUR TURN", 0, (int) halfHeight);
         }
         listener.updateCardImages(getAllCards());
     }
